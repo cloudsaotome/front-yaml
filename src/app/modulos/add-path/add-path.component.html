@@ -1,0 +1,51 @@
+<br>
+<div class="card">
+  <div class="row centrar-hijo">
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Contratos:</span>
+      </div>
+      <div class="custom-file">
+        <input [disabled]="ok" type="file" class="custom-file-input" id="archivos" accept=".yaml,.yml" required multiple (change)="SeleccionArchivos($event)">
+        <label class="custom-file-label" for="archivosyaml">Seleccione sus archivos .YAML/.YML</label>
+      </div>
+      <button (click)="SubirContratos()" [disabled]="!hasFiles" type="button" class="btn btn-info">Agregar Paths</button>
+    </div>
+  </div>
+
+  <div [hidden]="isSuccess" *ngFor="let f of fileList; let ind = index" class="card">
+    <div class="card-body row">
+      <h5 class="card-title col-md-10">{{f.name}}</h5>
+      <button (click)="QuitarArchivo(ind)" class="btn btn-outline-danger btn-sm flotarDer col-md-2">Quitar</button>
+    </div>
+  </div>
+
+  <div [hidden]="!isSuccess" class="row centrar-hijo">
+    <div class="card col-md-12 mb-12">
+      <div class="card-body">
+        <div *ngIf="response.mensaje === 'Operación exitosa.'; then operacionOk else operacionMal"></div>
+        <ng-template #operacionOk><h5 class="card-title"><span class="colorVerde">{{response.mensaje}}</span></h5></ng-template>
+        <ng-template #operacionMal><h5 class="card-title"><span class="colorJitomate">{{response.mensaje}}</span></h5></ng-template>
+        <h6 class="card-subtitle mb-2 text-muted">Folio: {{response.folio}}</h6>
+        <div *ngFor="let file of response.detalle; let indx = index" class="card">
+          <div class="card-header">
+            Archivo: {{file.archivo}}
+            <a type="button" style="float:right;" class="btn btn-outline-info btn-sm" data-toggle="collapse" href="#colapsable{{indx}}" aria-expanded="false">Ver Detalle</a>
+          </div>
+          <div class="card-body collapse multi-collapse" id="colapsable{{indx}}">
+            <div *ngFor="let resendpoint of file.resultadoEndPointList" class="card">
+              <div class="card-body" >
+                <h6 class="card-subtitle mb-2 text-muted"><span class="colorFlorAzul">Path: {{resendpoint.path}}</span></h6>
+                <div *ngIf="resendpoint.estatus === 'Datos insertados correctamente'; then estaOk else estaMal"></div>
+                <ng-template #estaOk><h6 class="card-subtitle mb-2 text-muted"><span class="colorVerde">Resultado: {{resendpoint.estatus}}</span></h6></ng-template>
+                <ng-template #estaMal><h6 class="card-subtitle mb-2 text-muted"><span class="colorJitomate">Resultado: {{resendpoint.estatus}}</span></h6></ng-template>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+

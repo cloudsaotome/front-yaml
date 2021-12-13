@@ -1,0 +1,25 @@
+.centrar-hijo {
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+}
+
+.colorVerde{
+    color: green;
+}
+
+.colorJitomate{
+    color: tomato;
+}
+
+.colorFlorAzul{
+    color:cornflowerblue
+}
+
+.flotarDer{
+    float: right;
+}
+
+.flotarIzq{
+    float: left;
+}
